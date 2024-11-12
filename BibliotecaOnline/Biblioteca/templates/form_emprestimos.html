@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+Empréstimos
+{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="container-sm">
+    {% if messages %}
+    <div>
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Cadastrar Empréstimo</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% if emprestimo %}{% url 'editar_emprestimo' emprestimo.id %}{% else %}{% url 'novo_emprestimo' %}{% endif %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.livro.label_tag }}
+                    {{ form.livro }}
+                </div>
+                <div class="mb-3">
+                    {{ form.aluno.label_tag }}
+                    {{ form.aluno }}
+                </div>
+                <div class="mb-3">
+                    {{ form.data_emprestimo.label_tag }}
+                    {{ form.data_emprestimo }}
+                </div>
+                <div class="mb-3">
+                    {{ form.data_devolucao.label_tag }}
+                    {{ form.data_devolucao }}
+                </div>
+                <div class="mb-3">
+                    {{ form.devolvido.label_tag }}
+                    {{ form.devolvido }}
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Empréstimos cadastrados</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Livro</th>
+                        <th>Aluno</th>
+                        <th>Data de Empréstimo</th>
+                        <th>Data de Devolução</th>
+                        <th>Devolvido</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprestimo in emprestimos %}
+                    <tr>
+                        <td>{{ emprestimo.livro }}</td>
+                        <td>{{ emprestimo.aluno }}</td>
+                        <td>{{ emprestimo.data_emprestimo }}</td>
+                        <td>{{ emprestimo.data_devolucao }}</td>
+                        <td>{% if emprestimo.devolvido %}Sim{% else %}Não{% endif %}</td>
+                        <td>
+                            <a href="{% url 'editar_emprestimo' emprestimo.id %}" class="btn btn-warning">Editar</a>
+                            <form method="POST" action="{% url 'delete_emprestimo' emprestimo.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
