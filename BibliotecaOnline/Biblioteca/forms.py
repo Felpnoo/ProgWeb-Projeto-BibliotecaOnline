@@ -1,5 +1,5 @@
 from django import forms
-from .models import Autor, Livro, Aluno, Emprestimo
+from .models import Autor, Livro, LivroCapa, Aluno, Emprestimo
 
 class AutorForm(forms.ModelForm):
     class Meta:
@@ -10,7 +10,7 @@ class AutorForm(forms.ModelForm):
         labels = {'nome': 'Nome',
                   'sobrenome': 'Sobrenome',
                   'email': 'Email'}
-        widget = {'nome': forms.TextInput(attrs={'class': 'form-control'}),
+        widgets= {'nome': forms.TextInput(attrs={'class': 'form-control'}),
                   'sobrenome': forms.TextInput(attrs={'class': 'form-control'}),
                   'email': forms.EmailInput(attrs={'class': 'form-control'})}
         
@@ -28,11 +28,18 @@ class LivroForm(forms.ModelForm):
                   'isbn': 'ISBN',
                   'paginas': 'Paginas',
                   'reservado': 'Reservado'}
-        widget = {'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+        widgets= {'titulo': forms.TextInput(attrs={'class': 'form-control'}),
                   'autor': forms.Select(attrs={'class': 'form-control'}),
                   'isbn': forms.TextInput(attrs={'class': 'form-control'}),
                   'paginas': forms.NumberInput(attrs={'class': 'form-control'}),
                   'reservado': forms.CheckboxInput(attrs={'class': 'form-control'})}
+
+class LivroCapaForm(forms.ModelForm):
+    class Meta:
+        model = LivroCapa
+        fields = ['capa']
+        labels = {'capa': 'Capa'}
+        widgets= {'capa': forms.FileInput(attrs={'class': 'form-control'})}
         
 class AlunoForm(forms.ModelForm):
     class Meta:
@@ -43,7 +50,7 @@ class AlunoForm(forms.ModelForm):
         labels = {'nome': 'Nome',
                   'sobrenome': 'Sobrenome',
                   'email': 'Email'}
-        widget = {'nome': forms.TextInput(attrs={'class': 'form-control'}),
+        widgets= {'nome': forms.TextInput(attrs={'class': 'form-control'}),
                   'sobrenome': forms.TextInput(attrs={'class': 'form-control'}),
                   'email': forms.EmailInput(attrs={'class': 'form-control'})}
         
@@ -58,11 +65,11 @@ class EmprestimoForm(forms.ModelForm):
         labels = {'livro': 'Livro',
                   'aluno': 'Aluno',
                   'data_emprestimo': 'Data de Emprestimo',
-                  'data_devolucao': 'Data de Devolucao',
+                  'data_devolucao': 'Data de Devolução',
                   'devolvido': 'Devolvido'}
-        widget = {'livro': forms.Select(attrs={'class': 'form-control'}),
+        widgets= {'livro': forms.Select(attrs={'class': 'form-control'}),
                   'aluno': forms.Select(attrs={'class': 'form-control'}),
-                  'data_emprestimo': forms.DateInput(attrs={'class': 'form-control'}),
-                  'data_devolucao': forms.DateInput(attrs={'class': 'form-control'}),
-                  'devolvido': forms.CheckboxInput(attrs={'class': 'form-control'})}
+                  'data_emprestimo': forms.DateInput(attrs={'class': 'form-control', 'type':'date'}),
+                  'data_devolucao': forms.DateInput(attrs={'class': 'form-control', 'type':'date'}),
+                  'devolvido': forms.CheckboxInput(attrs={'class': 'form-check-input'})}
         

@@ -9,6 +9,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Inicio</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/mostrar_livros">Livros Disponiveis</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Cadastros
@@ -19,6 +22,19 @@
             <li><a class="dropdown-item" href="/alunos">Alunos</a></li>
             <li><a class="dropdown-item" href="/emprestimos">Empréstimos</a></li>
           </ul>
+          <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'registrar' %}">Registrar</a>
+          </li>
+        {% endif %}
         </li>
       </ul>
     </div>

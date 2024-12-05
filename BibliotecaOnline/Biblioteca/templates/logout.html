@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Logout - Biblioteca Online
+{% endblock %}
+
+{% block content %}
+<div class="content-wrap">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Você saiu do sistema</h1>
+                <p class="lead">Obrigado por usar a Biblioteca Online. Esperamos vê-lo novamente em breve!</p>
+                
+                <!-- Formulário de Logout -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sair</button>
+                </form>
+
+                <p>
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Fazer Login</a>
+                    <a href="/" class="btn btn-secondary btn-lg">Ir para a Página Inicial</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

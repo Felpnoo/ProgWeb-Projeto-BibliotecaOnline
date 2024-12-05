@@ -23,7 +23,7 @@ Livros
             <h5 class="card-title">Cadastrar livro</h5>
         </div>
         <div class="card-body">
-            <form method="POST" action="{% if livro %}{% url 'editar_livro' livro.id %}{% else %}{% url 'novo_livro' %}{% endif %}">
+            <form method="POST" enctype="multipart/form-data" action="{%if livro %}{%url 'editar_livro' livro.id %}{% else %}{% url "novo_livro" %}{% endif %}">
                 {% csrf_token %}
                 <div class="mb-3">
                     {{ form.titulo.label_tag }}
@@ -35,13 +35,17 @@ Livros
                 </div>
                 <div class="mb-3">
                     {{ form.isbn.label_tag }}
-                    {{ form.isbn }}
+                    {{ form.isbn }}    
                 </div>
                 <div class="mb-3">
                     {{ form.paginas.label_tag }}
                     {{ form.paginas }}
                 </div>
                 <div class="mb-3">
+                    {{ capa_form.capa.label_tag }}
+                    {{ capa_form.capa }}
+                </div>
+                <div class="mb-3 form-check">
                     {{ form.reservado.label_tag }}
                     {{ form.reservado }}
                 </div>
