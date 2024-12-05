@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
@@ -21,8 +22,23 @@ def registrar(request):
         form = UserCreationForm()
     return render(request, 'registrar.html', {'form': form})
 
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        # Autenticar o usuário
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, "Usuário ou senha inválidos.")
+    return render(request, 'login.html')
 
-@login_required(login_url='/login/')
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
 def index(request):
     return render(request, 'index.html')
 
